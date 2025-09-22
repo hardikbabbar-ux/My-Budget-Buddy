@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Icon Generator - Budget Buddy</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .icon-item {
+            text-align: center;
+            padding: 20px;
+            border: 2px solid #22c55e;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+        }
+        .icon {
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        .icon::before {
+            content: '💰';
+            font-size: 3rem;
+        }
+        .size-label {
+            color: white;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        button {
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #16a34a;
+        }
+        #instructions {
+            background: #f0fdf4;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #22c55e;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Budget Buddy PWA Icon Generator</h1>
+        
+        <div id="instructions">
+            <h3>📋 Instructions:</h3>
+            <ol>
+                <li>Create an <code>icons</code> folder in your project directory</li>
+                <li>Right-click on each icon below and "Save image as..."</li>
+                <li>Save with the exact filename shown (e.g., icon-72x72.png)</li>
+                <li>Or use any design tool to create custom icons with these dimensions</li>
+            </ol>
+        </div>
+
+        <div class="icon-grid">
+            <div class="icon-item">
+                <canvas class="icon" width="72" height="72" data-size="72"></canvas>
+                <div class="size-label">icon-72x72.png</div>
+                <button onclick="downloadIcon(72)">Download</button>
+            </div>
+            
+            <div class="icon-item">
+                <canvas class="icon" width="96" height="96" data-size="96"></canvas>
+                <div class="size-label">icon-96x96.png</div>
+                <button onclick="downloadIcon(96)">Download</button>
+            </div>
+            
+            <div class="icon-item">
+                <canvas class="icon" width="128" height="128" data-size="128"></canvas>
+                <div class="size-label">icon-128x128.png</div>
+                <button onclick="downloadIcon(128)">Download</button>
+            </div>
+            
+            <div class="icon-item">
+                <canvas class="icon" width="144" height="144" data-size="144"></canvas>
+                <div class="size-label">icon-144x144.png</div>
+                <button onclick="downloadIcon(144)">Download</button>
+            </div>
+            
+            <div class="icon-item">
+                <canvas class="icon" width="152" height="152" data-size="152"></canvas>
+                <div class="size-label">icon-152x152.png</div>
+                <button onclick="downloadIcon(152)">Download</button>
+            </div>
+            
+            <div class="icon-item">
+                <canvas class="icon" width="192" height="192" data-size="192"></canvas>
+                <div class="size-label">icon-192x192.png</div>
+                <button onclick="downloadIcon(192)">Download</button>
+            </div>
+            
+            <div class="icon-item">
+                <canvas class="icon" width="384" height="384" data-size="384"></canvas>
+                <div class="size-label">icon-384x384.png</div>
+                <button onclick="downloadIcon(384)">Download</button>
+            </div>
+            
+            <div class="icon-item">
+                <canvas class="icon" width="512" height="512" data-size="512"></canvas>
+                <div class="size-label">icon-512x512.png</div>
+                <button onclick="downloadIcon(512)">Download</button>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; padding: 20px; background: #f9fafb; border-radius: 8px;">
+            <h3>🚀 Next Steps:</h3>
+            <p>After creating your icons:</p>
+            <ul>
+                <li>✅ Test your PWA on mobile devices</li>
+                <li>✅ Check install prompt appears</li>
+                <li>✅ Verify offline functionality</li>
+                <li>✅ Test on different browsers (Chrome, Firefox, Safari)</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Generate icons on page load
+        window.addEventListener('load', function() {
+            const canvases = document.querySelectorAll('canvas.icon');
+            canvases.forEach(canvas => {
+                const size = parseInt(canvas.dataset.size);
+                generateIcon(canvas, size);
+            });
+        });
+
+        function generateIcon(canvas, size) {
+            const ctx = canvas.getContext('2d');
+            canvas.width = size;
+            canvas.height = size;
+            
+            // Create gradient background
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#22c55e');
+            gradient.addColorStop(1, '#16a34a');
+            
+            // Draw background
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            
+            // Add rounded corners effect
+            ctx.globalCompositeOperation = 'destination-in';
+            ctx.beginPath();
+            ctx.roundRect(0, 0, size, size, size * 0.2);
+            ctx.fill();
+            ctx.globalCompositeOperation = 'source-over';
+            
+            // Add money emoji
+            ctx.font = `${size * 0.5}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('💰', size / 2, size / 2);
+            
+            // Add "BB" text for smaller icons
+            if (size <= 96) {
+                ctx.fillStyle = 'white';
+                ctx.font = `bold ${size * 0.3}px Arial`;
+                ctx.fillText('BB', size / 2, size * 0.75);
+            }
+        }
+
+        function downloadIcon(size) {
+            const canvas = document.querySelector(`canvas[data-size="${size}"]`);
+            const link = document.createElement('a');
+            link.download = `icon-${size}x${size}.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        // Polyfill for roundRect if not available
+        if (!CanvasRenderingContext2D.prototype.roundRect) {
+            CanvasRenderingContext2D.prototype.roundRect = function(x, y, width, height, radius) {
+                this.beginPath();
+                this.moveTo(x + radius, y);
+                this.lineTo(x + width - radius, y);
+                this.quadraticCurveTo(x + width, y, x + width, y + radius);
+                this.lineTo(x + width, y + height - radius);
+                this.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+                this.lineTo(x + radius, y + height);
+                this.quadraticCurveTo(x, y + height, x, y + height - radius);
+                this.lineTo(x, y + radius);
+                this.quadraticCurveTo(x, y, x + radius, y);
+                this.closePath();
+            };
+        }
+    </script>
+</body>
+</html>
