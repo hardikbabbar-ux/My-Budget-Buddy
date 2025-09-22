@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Test</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <h1>PDF Export Test</h1>
+    <button onclick="testPDF()">Test PDF Generation</button>
+    <div id="result"></div>
+
+    <script>
+        function testPDF() {
+            const resultDiv = document.getElementById('result');
+            
+            try {
+                console.log('window.jsPDF type:', typeof window.jsPDF);
+                console.log('window.jsPDF content:', window.jsPDF);
+                
+                let jsPDFConstructor;
+                
+                // Try different ways to access jsPDF
+                if (window.jsPDF && typeof window.jsPDF.jsPDF === 'function') {
+                    jsPDFConstructor = window.jsPDF.jsPDF;
+                    console.log('Using window.jsPDF.jsPDF');
+                } else if (window.jsPDF && typeof window.jsPDF === 'function') {
+                    jsPDFConstructor = window.jsPDF;
+                    console.log('Using window.jsPDF directly');
+                } else if (typeof jsPDF === 'function') {
+                    jsPDFConstructor = jsPDF;
+                    console.log('Using global jsPDF');
+                } else {
+                    throw new Error('jsPDF library not found');
+                }
+                
+                console.log('Creating PDF...');
+                const doc = new jsPDFConstructor();
+                doc.text('Hello Budget Buddy!', 20, 20);
+                doc.text('This is a test PDF.', 20, 30);
+                doc.save('test-report.pdf');
+                
+                resultDiv.innerHTML = '<div style="color: green;">PDF generated successfully!</div>';
+                
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.innerHTML = `<div style="color: red;">Error: ${error.message}</div>`;
+            }
+        }
+        
+        // Check jsPDF availability on load
+        window.addEventListener('load', function() {
+            console.log('Page loaded. Checking jsPDF...');
+            console.log('window.jsPDF available:', typeof window.jsPDF !== 'undefined');
+            console.log('jsPDF structure:', window.jsPDF);
+        });
+    </script>
+</body>
+</html>
