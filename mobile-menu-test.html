@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Menu Test - Budget Buddy</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .header {
+            background: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .test-section {
+            padding: 20px;
+        }
+
+        .test-button {
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin: 10px 0;
+            transition: all 0.2s;
+        }
+
+        .test-button:hover {
+            background: #16a34a;
+            transform: translateY(-1px);
+        }
+
+        .status {
+            background: #f3f4f6;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        /* Simple Mobile Navigation for Testing */
+        .test-nav {
+            background: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-logo {
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .hamburger-test {
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 8px;
+            gap: 4px;
+        }
+
+        .hamburger-test span {
+            width: 25px;
+            height: 3px;
+            background: #374151;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger-test.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .hamburger-test.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-test.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        .mobile-nav-test {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: white;
+            transform: translateY(-100%);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .mobile-nav-test.show {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-nav-test ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .mobile-nav-test li {
+            margin-bottom: 10px;
+        }
+
+        .mobile-nav-test a {
+            display: block;
+            padding: 15px;
+            text-decoration: none;
+            color: #374151;
+            background: #f9fafb;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .mobile-nav-test a:hover {
+            background: #e5e7eb;
+            color: #1f2937;
+        }
+
+        .instructions {
+            background: #eff6ff;
+            border: 2px solid #3b82f6;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .instructions h3 {
+            color: #1e40af;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Test Navigation -->
+        <nav class="test-nav">
+            <div class="nav-logo">Budget Buddy Test</div>
+            <div class="hamburger-test" id="testHamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+
+        <!-- Test Mobile Navigation -->
+        <div class="mobile-nav-test" id="testMobileNav">
+            <ul>
+                <li><a href="#home">🏠 Home</a></li>
+                <li><a href="#expense-manager">💰 Expense Manager</a></li>
+                <li><a href="#piggy-bank">🐷 Piggy Bank</a></li>
+                <li><a href="#features">✨ Features</a></li>
+                <li><a href="#contact">📞 Contact</a></li>
+            </ul>
+        </div>
+
+        <div class="header">
+            <h1>📱 Mobile Menu Test</h1>
+            <p>Test the mobile navigation functionality</p>
+        </div>
+
+        <div class="test-section">
+            <div class="instructions">
+                <h3>🧪 How to Test</h3>
+                <p><strong>1.</strong> Tap the hamburger menu (☰) in the top navigation</p>
+                <p><strong>2.</strong> The menu should slide down from the top</p>
+                <p><strong>3.</strong> Tap any menu item to close the menu</p>
+                <p><strong>4.</strong> Use the test buttons below for debugging</p>
+            </div>
+
+            <button class="test-button" onclick="testMenuOpen()">🔓 Force Open Menu</button>
+            <button class="test-button" onclick="testMenuClose()">🔒 Force Close Menu</button>
+            <button class="test-button" onclick="checkMenuStatus()">📊 Check Menu Status</button>
+            <button class="test-button" onclick="openMainApp()">🏠 Open Main App</button>
+
+            <div class="status" id="statusDisplay">
+                Ready to test mobile menu...
+            </div>
+
+            <div class="instructions">
+                <h3>🔧 Troubleshooting</h3>
+                <p><strong>If menu doesn't work:</strong></p>
+                <ul>
+                    <li>Check browser console for errors (F12)</li>
+                    <li>Try refreshing the page</li>
+                    <li>Ensure you're in mobile view (width < 768px)</li>
+                    <li>Try the force open/close buttons above</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isMenuOpen = false;
+
+        // Initialize test menu
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.getElementById('testHamburger');
+            const mobileNav = document.getElementById('testMobileNav');
+            const statusDisplay = document.getElementById('statusDisplay');
+
+            if (hamburger && mobileNav) {
+                hamburger.addEventListener('click', function() {
+                    toggleTestMenu();
+                });
+
+                // Close menu when clicking on menu items
+                const menuItems = mobileNav.querySelectorAll('a');
+                menuItems.forEach(item => {
+                    item.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        closeTestMenu();
+                        statusDisplay.textContent = `Clicked: ${item.textContent}`;
+                    });
+                });
+
+                statusDisplay.textContent = 'Test menu initialized ✅';
+            } else {
+                statusDisplay.textContent = 'Menu elements not found ❌';
+            }
+        });
+
+        function toggleTestMenu() {
+            if (isMenuOpen) {
+                closeTestMenu();
+            } else {
+                openTestMenu();
+            }
+        }
+
+        function openTestMenu() {
+            const hamburger = document.getElementById('testHamburger');
+            const mobileNav = document.getElementById('testMobileNav');
+            const statusDisplay = document.getElementById('statusDisplay');
+
+            hamburger.classList.add('active');
+            mobileNav.classList.add('show');
+            document.body.style.overflow = 'hidden';
+            isMenuOpen = true;
+
+            statusDisplay.textContent = 'Menu opened 📂';
+        }
+
+        function closeTestMenu() {
+            const hamburger = document.getElementById('testHamburger');
+            const mobileNav = document.getElementById('testMobileNav');
+            const statusDisplay = document.getElementById('statusDisplay');
+
+            hamburger.classList.remove('active');
+            mobileNav.classList.remove('show');
+            document.body.style.overflow = '';
+            isMenuOpen = false;
+
+            statusDisplay.textContent = 'Menu closed 📁';
+        }
+
+        // Test functions
+        function testMenuOpen() {
+            openTestMenu();
+        }
+
+        function testMenuClose() {
+            closeTestMenu();
+        }
+
+        function checkMenuStatus() {
+            const statusDisplay = document.getElementById('statusDisplay');
+            const hamburger = document.getElementById('testHamburger');
+            const mobileNav = document.getElementById('testMobileNav');
+
+            const status = {
+                isOpen: isMenuOpen,
+                hamburgerExists: !!hamburger,
+                mobileNavExists: !!mobileNav,
+                hamburgerHasActive: hamburger?.classList.contains('active'),
+                mobileNavHasShow: mobileNav?.classList.contains('show'),
+                screenWidth: window.innerWidth
+            };
+
+            statusDisplay.innerHTML = `
+                <strong>Menu Status:</strong><br>
+                Is Open: ${status.isOpen}<br>
+                Hamburger Exists: ${status.hamburgerExists}<br>
+                Mobile Nav Exists: ${status.mobileNavExists}<br>
+                Hamburger Active: ${status.hamburgerHasActive}<br>
+                Mobile Nav Show: ${status.mobileNavHasShow}<br>
+                Screen Width: ${status.screenWidth}px
+            `;
+
+            console.log('📱 Menu Status:', status);
+        }
+
+        function openMainApp() {
+            window.open('index.html', '_blank');
+        }
+
+        // Log when script loads
+        console.log('📱 Mobile Menu Test Script Loaded');
+        console.log('Screen width:', window.innerWidth);
+        console.log('User agent:', navigator.userAgent);
+    </script>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Test - Budget Buddy</title>
+    <link rel="stylesheet" href="desktop-navigation.css">
+    <style>
+        /* Default 85% zoom for the test page */
+        html {
+            zoom: 0.85;
+            -moz-transform: scale(0.85);
+            -moz-transform-origin: 0 0;
+            -webkit-transform: scale(0.85);
+            -webkit-transform-origin: 0 0;
+            transform: scale(0.85);
+            transform-origin: 0 0;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            width: 117.65%; /* Compensate for 85% zoom */
+            min-height: 117.65vh;
+        }
+        .test-content {
+            padding: 120px 20px 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .test-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 10px;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+        .success { background: #dcfce7; color: #166534; }
+        .error { background: #fef2f2; color: #dc2626; }
+        .info { background: #eff6ff; color: #1d4ed8; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span>🏦 Budget Buddy Test</span>
+            </div>
+            <!-- Desktop Navigation -->
+            <ul class="nav-menu desktop-nav">
+                <li class="nav-group main-nav">
+                    <a href="#home" class="nav-link">
+                        <i class="nav-icon">🏠</i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li class="nav-group main-nav">
+                    <a href="#test" class="nav-link">
+                        <i class="nav-icon">🧪</i>
+                        <span>Test</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <!-- Desktop Tools Menu -->
+            <div class="desktop-tools">
+                <div class="tools-dropdown">
+                    <button class="tools-btn" id="desktopToolsBtn">
+                        <i class="nav-icon">🔧</i>
+                        <span>Tools</span>
+                        <i class="dropdown-arrow">▼</i>
+                    </button>
+                    <div class="tools-dropdown-menu" id="desktopToolsMenu">
+                        <a href="#" class="tool-item">
+                            <i class="tool-icon">📋</i>
+                            <span>Test Menu Item 1</span>
+                        </a>
+                        <a href="#" class="tool-item">
+                            <i class="tool-icon">⚙️</i>
+                            <span>Test Menu Item 2</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile Navigation -->
+            <ul class="nav-menu mobile-nav">
+                <li><a href="#home">🏠 Home</a></li>
+                <li><a href="#test">🧪 Test</a></li>
+                <li><a href="#about">ℹ️ About</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="test-content">
+        <div class="test-section">
+            <h1>🧪 Navigation Test Page</h1>
+            <p>This page tests the navigation functionality for Budget Buddy.</p>
+        </div>
+
+        <div class="test-section">
+            <h2>📱 Mobile Navigation Test</h2>
+            <p>On mobile devices (screen width < 768px):</p>
+            <ul>
+                <li>The hamburger menu should be visible and fully displayed</li>
+                <li>Clicking it should open/close the mobile menu</li>
+                <li>The hamburger should animate to a complete X when open (not cut off)</li>
+                <li>The X should be green (#22c55e) when active</li>
+                <li>Clicking menu items should close the menu</li>
+            </ul>
+            <div id="mobileStatus" class="status info">Test the mobile menu by resizing your browser window or using mobile view. Check if the X (close) icon is fully visible.</div>
+        </div>
+
+        <div class="test-section">
+            <h2>🖥️ Desktop Navigation Test</h2>
+            <p>On desktop devices (screen width >= 768px):</p>
+            <ul>
+                <li>The desktop navigation should be visible</li>
+                <li>The Tools dropdown should work when clicked</li>
+                <li>Hover effects should work on navigation items</li>
+                <li>The hamburger menu should be hidden</li>
+            </ul>
+            <div id="desktopStatus" class="status info">Test the desktop navigation and tools dropdown.</div>
+        </div>
+
+        <div class="test-section">
+            <h2>🔧 JavaScript Status</h2>
+            <div id="jsStatus" class="status info">Checking JavaScript initialization...</div>
+            <div id="elementsStatus" class="status info">Checking DOM elements...</div>
+        </div>
+    </div>
+
+    <script src="desktop-navigation.js"></script>
+    <script>
+        // Test script to check navigation functionality
+        setTimeout(() => {
+            const jsStatus = document.getElementById('jsStatus');
+            const elementsStatus = document.getElementById('elementsStatus');
+            
+            // Check if desktop navigation is initialized
+            if (window.desktopNavigation) {
+                jsStatus.className = 'status success';
+                jsStatus.textContent = '✅ Desktop Navigation JavaScript initialized successfully!';
+            } else {
+                jsStatus.className = 'status error';
+                jsStatus.textContent = '❌ Desktop Navigation JavaScript failed to initialize.';
+            }
+            
+            // Check DOM elements
+            const hamburger = document.querySelector('.hamburger');
+            const mobileNav = document.querySelector('.mobile-nav');
+            const desktopToolsBtn = document.getElementById('desktopToolsBtn');
+            const desktopToolsMenu = document.getElementById('desktopToolsMenu');
+            
+            let elementsFound = 0;
+            let elementsTotal = 4;
+            
+            if (hamburger) elementsFound++;
+            if (mobileNav) elementsFound++;
+            if (desktopToolsBtn) elementsFound++;
+            if (desktopToolsMenu) elementsFound++;
+            
+            if (elementsFound === elementsTotal) {
+                elementsStatus.className = 'status success';
+                elementsStatus.textContent = `✅ All ${elementsTotal} navigation elements found in DOM.`;
+            } else {
+                elementsStatus.className = 'status error';
+                elementsStatus.textContent = `❌ Only ${elementsFound}/${elementsTotal} navigation elements found.`;
+            }
+            
+            // Add click listeners for testing
+            if (hamburger) {
+                hamburger.addEventListener('click', () => {
+                    const mobileStatus = document.getElementById('mobileStatus');
+                    mobileStatus.className = 'status success';
+                    mobileStatus.textContent = '✅ Mobile hamburger menu clicked! Check if menu opens/closes.';
+                });
+            }
+            
+            if (desktopToolsBtn) {
+                desktopToolsBtn.addEventListener('click', () => {
+                    const desktopStatus = document.getElementById('desktopStatus');
+                    desktopStatus.className = 'status success';
+                    desktopStatus.textContent = '✅ Desktop tools button clicked! Check if dropdown opens/closes.';
+                });
+            }
+        }, 500);
+    </script>
+</body>
+</html>

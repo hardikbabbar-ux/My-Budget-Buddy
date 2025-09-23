@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Expense Deletion - Budget Buddy</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #374151;
+            margin-bottom: 10px;
+        }
+        
+        .test-section {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border-left: 5px solid #22c55e;
+        }
+        
+        .test-section h3 {
+            color: #374151;
+            margin-bottom: 15px;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin: 5px;
+            transition: transform 0.2s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+        
+        .btn-info {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+        }
+        
+        .log-output {
+            background: #1f2937;
+            color: #f9fafb;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 15px;
+        }
+        
+        .status {
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-weight: 600;
+        }
+        
+        .status.success {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #22c55e;
+        }
+        
+        .status.error {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #ef4444;
+        }
+        
+        .status.info {
+            background: #eff6ff;
+            color: #2563eb;
+            border: 1px solid #3b82f6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 Expense Deletion Test Suite</h1>
+            <p>Test and verify that expense deletion is working properly</p>
+        </div>
+        
+        <div class="test-section">
+            <h3>📋 Step 1: Initialize System</h3>
+            <p>First, let's make sure the expense manager is properly initialized.</p>
+            <button class="btn" onclick="initializeSystem()">Initialize Expense Manager</button>
+            <button class="btn btn-info" onclick="checkSystemStatus()">Check System Status</button>
+            <div id="initStatus"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>📝 Step 2: Create Test Data</h3>
+            <p>Create some test expenses to work with.</p>
+            <button class="btn" onclick="createTestExpenses()">Create Test Expenses</button>
+            <button class="btn btn-info" onclick="showCurrentExpenses()">Show Current Expenses</button>
+            <div id="testDataStatus"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>🗑️ Step 3: Test Individual Deletion</h3>
+            <p>Test deleting individual expenses.</p>
+            <button class="btn" onclick="testIndividualDeletion()">Test Delete First Expense</button>
+            <button class="btn" onclick="testDeleteNonExistent()">Test Delete Non-existent</button>
+            <div id="individualDeleteStatus"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>🧹 Step 4: Test Bulk Deletion</h3>
+            <p>Test clearing all expenses at once.</p>
+            <button class="btn btn-danger" onclick="testBulkDeletion()">Test Clear All Expenses</button>
+            <div id="bulkDeleteStatus"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>🔍 Step 5: Verify UI Updates</h3>
+            <p>Check that the UI properly updates after deletions.</p>
+            <button class="btn btn-info" onclick="verifyUIUpdates()">Verify UI Updates</button>
+            <div id="uiVerifyStatus"></div>
+        </div>
+        
+        <div class="test-section">
+            <h3>📊 Console Output</h3>
+            <p>Real-time console output from tests:</p>
+            <div id="consoleOutput" class="log-output">
+                Console output will appear here...
+            </div>
+            <button class="btn btn-info" onclick="clearConsoleOutput()">Clear Output</button>
+        </div>
+    </div>
+
+    <script>
+        // Override console.log to capture output
+        const originalConsoleLog = console.log;
+        const consoleOutput = document.getElementById('consoleOutput');
+        
+        console.log = function(...args) {
+            originalConsoleLog.apply(console, args);
+            const message = args.map(arg => 
+                typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+            ).join(' ');
+            
+            const timestamp = new Date().toLocaleTimeString();
+            consoleOutput.innerHTML += `<div>[${timestamp}] ${message}</div>`;
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        };
+        
+        function setStatus(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+        
+        function initializeSystem() {
+            console.log('🚀 Initializing expense manager system...');
+            
+            try {
+                // Check if we're in the main app context
+                if (typeof ExpenseManager === 'undefined') {
+                    setStatus('initStatus', '❌ ExpenseManager class not found. Please run this test from the main Budget Buddy app.', 'error');
+                    return;
+                }
+                
+                // Initialize if not already done
+                if (!window.expenseManager) {
+                    window.expenseManager = new ExpenseManager();
+                    console.log('✅ ExpenseManager initialized');
+                } else {
+                    console.log('✅ ExpenseManager already exists');
+                }
+                
+                setStatus('initStatus', '✅ System initialized successfully', 'success');
+                
+            } catch (error) {
+                console.log('❌ Initialization error:', error);
+                setStatus('initStatus', `❌ Initialization failed: ${error.message}`, 'error');
+            }
+        }
+        
+        function checkSystemStatus() {
+            console.log('🔍 Checking system status...');
+            
+            const status = {
+                expenseManagerExists: !!window.expenseManager,
+                expenseCount: window.expenseManager ? window.expenseManager.expenses.length : 0,
+                deleteFunction: window.expenseManager ? typeof window.expenseManager.deleteExpense : 'undefined',
+                clearFunction: window.expenseManager ? typeof window.expenseManager.clearExpenses : 'undefined'
+            };
+            
+            console.log('System Status:', status);
+            
+            if (status.expenseManagerExists) {
+                setStatus('initStatus', 
+                    `✅ System OK - ${status.expenseCount} expenses, delete: ${status.deleteFunction}, clear: ${status.clearFunction}`, 
+                    'success'
+                );
+            } else {
+                setStatus('initStatus', '❌ ExpenseManager not found', 'error');
+            }
+        }
+        
+        function createTestExpenses() {
+            console.log('📝 Creating test expenses...');
+            
+            if (!window.expenseManager) {
+                setStatus('testDataStatus', '❌ ExpenseManager not initialized', 'error');
+                return;
+            }
+            
+            const testExpenses = [
+                { description: 'Test Coffee ☕', amount: 150, category: 'food' },
+                { description: 'Test Bus Fare 🚌', amount: 50, category: 'transport' },
+                { description: 'Test Movie 🎬', amount: 300, category: 'entertainment' },
+                { description: 'Test Groceries 🛒', amount: 500, category: 'food' },
+                { description: 'Test Gas ⛽', amount: 200, category: 'transport' }
+            ];
+            
+            const initialCount = window.expenseManager.expenses.length;
+            
+            testExpenses.forEach((expense, index) => {
+                const expenseObj = {
+                    id: (Date.now() + index).toString(),
+                    description: expense.description,
+                    amount: expense.amount,
+                    category: expense.category,
+                    date: new Date().toISOString().split('T')[0],
+                    timestamp: new Date().toISOString()
+                };
+                
+                window.expenseManager.expenses.push(expenseObj);
+                window.expenseManager.categories[expense.category].spent += expense.amount;
+                console.log(`Added: ${expense.description} - ₹${expense.amount}`);
+            });
+            
+            window.expenseManager.saveData();
+            window.expenseManager.updateUI();
+            
+            const finalCount = window.expenseManager.expenses.length;
+            console.log(`✅ Created ${testExpenses.length} test expenses (${initialCount} → ${finalCount})`);
+            setStatus('testDataStatus', `✅ Created ${testExpenses.length} test expenses`, 'success');
+        }
+        
+        function showCurrentExpenses() {
+            if (!window.expenseManager) {
+                setStatus('testDataStatus', '❌ ExpenseManager not initialized', 'error');
+                return;
+            }
+            
+            const expenses = window.expenseManager.expenses;
+            console.log(`📊 Current expenses (${expenses.length}):`);
+            
+            expenses.forEach((expense, index) => {
+                console.log(`${index + 1}. ${expense.description} - ₹${expense.amount} (ID: ${expense.id})`);
+            });
+            
+            setStatus('testDataStatus', `📊 Showing ${expenses.length} current expenses in console`, 'info');
+        }
+        
+        function testIndividualDeletion() {
+            console.log('🗑️ Testing individual expense deletion...');
+            
+            if (!window.expenseManager || window.expenseManager.expenses.length === 0) {
+                setStatus('individualDeleteStatus', '❌ No expenses to delete', 'error');
+                return;
+            }
+            
+            const expenseToDelete = window.expenseManager.expenses[0];
+            const initialCount = window.expenseManager.expenses.length;
+            
+            console.log(`Attempting to delete: ${expenseToDelete.description} (ID: ${expenseToDelete.id})`);
+            
+            try {
+                window.expenseManager.deleteExpense(expenseToDelete.id);
+                
+                const finalCount = window.expenseManager.expenses.length;
+                
+                if (finalCount === initialCount - 1) {
+                    console.log(`✅ Deletion successful (${initialCount} → ${finalCount})`);
+                    setStatus('individualDeleteStatus', '✅ Individual deletion working correctly', 'success');
+                } else {
+                    console.log(`❌ Deletion failed - count didn't change properly`);
+                    setStatus('individualDeleteStatus', '❌ Individual deletion failed', 'error');
+                }
+                
+            } catch (error) {
+                console.log('❌ Deletion error:', error);
+                setStatus('individualDeleteStatus', `❌ Deletion error: ${error.message}`, 'error');
+            }
+        }
+        
+        function testDeleteNonExistent() {
+            console.log('🧪 Testing deletion of non-existent expense...');
+            
+            if (!window.expenseManager) {
+                setStatus('individualDeleteStatus', '❌ ExpenseManager not initialized', 'error');
+                return;
+            }
+            
+            const fakeId = 'non-existent-id-12345';
+            const initialCount = window.expenseManager.expenses.length;
+            
+            try {
+                window.expenseManager.deleteExpense(fakeId);
+                
+                const finalCount = window.expenseManager.expenses.length;
+                
+                if (finalCount === initialCount) {
+                    console.log('✅ Correctly handled non-existent expense deletion');
+                    setStatus('individualDeleteStatus', '✅ Error handling works correctly', 'success');
+                } else {
+                    console.log('❌ Unexpected behavior with non-existent expense');
+                    setStatus('individualDeleteStatus', '❌ Error handling issue detected', 'error');
+                }
+                
+            } catch (error) {
+                console.log('❌ Unexpected error:', error);
+                setStatus('individualDeleteStatus', `❌ Unexpected error: ${error.message}`, 'error');
+            }
+        }
+        
+        function testBulkDeletion() {
+            console.log('🧹 Testing bulk expense deletion...');
+            
+            if (!window.expenseManager) {
+                setStatus('bulkDeleteStatus', '❌ ExpenseManager not initialized', 'error');
+                return;
+            }
+            
+            const initialCount = window.expenseManager.expenses.length;
+            
+            if (initialCount === 0) {
+                setStatus('bulkDeleteStatus', '⚠️ No expenses to clear', 'info');
+                return;
+            }
+            
+            // Override confirm to automatically accept
+            const originalConfirm = window.confirm;
+            window.confirm = () => {
+                console.log('Auto-confirming bulk deletion for test');
+                return true;
+            };
+            
+            try {
+                window.expenseManager.clearExpenses();
+                
+                const finalCount = window.expenseManager.expenses.length;
+                
+                if (finalCount === 0) {
+                    console.log(`✅ Bulk deletion successful (cleared ${initialCount} expenses)`);
+                    setStatus('bulkDeleteStatus', `✅ Bulk deletion working - cleared ${initialCount} expenses`, 'success');
+                } else {
+                    console.log(`❌ Bulk deletion failed - ${finalCount} expenses remaining`);
+                    setStatus('bulkDeleteStatus', '❌ Bulk deletion failed', 'error');
+                }
+                
+            } catch (error) {
+                console.log('❌ Bulk deletion error:', error);
+                setStatus('bulkDeleteStatus', `❌ Bulk deletion error: ${error.message}`, 'error');
+            } finally {
+                // Restore original confirm
+                window.confirm = originalConfirm;
+            }
+        }
+        
+        function verifyUIUpdates() {
+            console.log('🔍 Verifying UI updates...');
+            
+            if (!window.expenseManager) {
+                setStatus('uiVerifyStatus', '❌ ExpenseManager not initialized', 'error');
+                return;
+            }
+            
+            const expensesList = document.getElementById('expensesList');
+            const deleteButtons = expensesList ? expensesList.querySelectorAll('.btn-delete') : [];
+            const expenseItems = expensesList ? expensesList.querySelectorAll('.expense-item') : [];
+            
+            console.log(`UI Elements found:`);
+            console.log(`- Expenses list container: ${expensesList ? 'Found' : 'Not found'}`);
+            console.log(`- Expense items: ${expenseItems.length}`);
+            console.log(`- Delete buttons: ${deleteButtons.length}`);
+            console.log(`- Expenses in data: ${window.expenseManager.expenses.length}`);
+            
+            const dataCount = window.expenseManager.expenses.length;
+            const uiCount = expenseItems.length;
+            
+            if (dataCount === uiCount) {
+                console.log('✅ UI is in sync with data');
+                setStatus('uiVerifyStatus', '✅ UI updates are working correctly', 'success');
+            } else {
+                console.log(`❌ UI out of sync - Data: ${dataCount}, UI: ${uiCount}`);
+                setStatus('uiVerifyStatus', `❌ UI sync issue - Data: ${dataCount}, UI: ${uiCount}`, 'error');
+            }
+        }
+        
+        function clearConsoleOutput() {
+            consoleOutput.innerHTML = 'Console cleared...';
+        }
+        
+        // Auto-initialize when page loads
+        window.addEventListener('load', function() {
+            console.log('🧪 Expense Deletion Test Suite Loaded');
+            console.log('Click "Initialize Expense Manager" to begin testing');
+        });
+    </script>
+</body>
+</html>

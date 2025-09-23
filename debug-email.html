@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EmailJS Debug Test</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+    <h1>EmailJS Debug Test</h1>
+    <form id="test-form">
+        <input type="text" id="test-name" placeholder="Your Name" required><br><br>
+        <input type="email" id="test-email" placeholder="Your Email" required><br><br>
+        <textarea id="test-message" placeholder="Your Message" required></textarea><br><br>
+        <button type="submit">Test Send</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        // Initialize EmailJS
+        emailjs.init('RepnMH8wE8bzSlRsO');
+
+        document.getElementById('test-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Sending...';
+            
+            const templateParams = {
+                from_name: document.getElementById('test-name').value,
+                from_email: document.getElementById('test-email').value,
+                message: document.getElementById('test-message').value,
+                to_email: 'mybudgetbuddy2025@gmail.com'
+            };
+            
+            console.log('Sending with params:', templateParams);
+            
+            try {
+                const response = await emailjs.send('service_7z065de', 'template_6926mrk', templateParams);
+                console.log('Success:', response);
+                resultDiv.innerHTML = `<div style="color: green;">SUCCESS! Status: ${response.status}</div>`;
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.innerHTML = `<div style="color: red;">ERROR: ${error.text || error.message}</div>`;
+            }
+        });
+    </script>
+</body>
+</html>

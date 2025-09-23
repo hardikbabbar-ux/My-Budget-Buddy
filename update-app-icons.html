@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Buddy - Icon Updater</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #374151;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+
+        .upload-area {
+            border: 3px dashed #d1d5db;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .upload-area:hover {
+            border-color: #22c55e;
+            background: #f0fdf4;
+        }
+
+        .upload-area.dragover {
+            border-color: #22c55e;
+            background: #f0fdf4;
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #9ca3af;
+        }
+
+        .upload-text {
+            color: #374151;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .upload-subtext {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .preview-area {
+            display: none;
+            margin-bottom: 30px;
+        }
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .preview-item {
+            text-align: center;
+            padding: 15px;
+            background: #f9fafb;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .preview-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .preview-item .size-label {
+            font-size: 0.8rem;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.3);
+        }
+
+        .generate-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .download-area {
+            display: none;
+            background: #f0fdf4;
+            border: 1px solid #22c55e;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .download-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #d1fae5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .download-btn {
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .download-btn:hover {
+            background: #16a34a;
+        }
+
+        .instructions {
+            background: #eff6ff;
+            border: 1px solid #3b82f6;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .instructions h3 {
+            color: #1e40af;
+            margin-bottom: 15px;
+        }
+
+        .instructions ol {
+            color: #374151;
+            line-height: 1.6;
+        }
+
+        .instructions li {
+            margin-bottom: 8px;
+        }
+
+        .current-icon {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #f9fafb;
+            border-radius: 12px;
+        }
+
+        .current-icon img {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 Budget Buddy Icon Updater</h1>
+            <p>Upload your new app icon and generate all required sizes</p>
+        </div>
+
+        <div class="current-icon">
+            <h3>Current App Icon</h3>
+            <img src="logo.png" alt="Current Logo" id="currentIcon">
+            <p>This will be replaced with your new icon</p>
+        </div>
+
+        <div class="upload-area" id="uploadArea">
+            <div class="upload-icon">📁</div>
+            <div class="upload-text">Click to upload or drag & drop your new icon</div>
+            <div class="upload-subtext">PNG, JPG, or SVG • Recommended: 512x512px or larger</div>
+            <input type="file" id="fileInput" class="file-input" accept="image/*">
+        </div>
+
+        <div class="preview-area" id="previewArea">
+            <h3>Preview</h3>
+            <div class="preview-grid" id="previewGrid"></div>
+        </div>
+
+        <button class="generate-btn" id="generateBtn" disabled>
+            🎨 Generate All Icon Sizes
+        </button>
+
+        <div class="download-area" id="downloadArea">
+            <h3>✅ Icons Generated Successfully!</h3>
+            <p>Download the generated icons and replace the existing files:</p>
+            <div class="download-grid" id="downloadGrid"></div>
+        </div>
+
+        <div class="instructions">
+            <h3>📋 Instructions</h3>
+            <ol>
+                <li>Upload your new icon image (preferably 512x512px or larger)</li>
+                <li>Click "Generate All Icon Sizes" to create all required formats</li>
+                <li>Download each generated icon file</li>
+                <li>Replace the existing icon files in your project:
+                    <ul>
+                        <li><code>logo.png</code> - Main logo file</li>
+                        <li><code>icons/icon-16x16.png</code> - Favicon</li>
+                        <li><code>icons/icon-32x32.png</code> - Favicon</li>
+                        <li><code>icons/icon-72x72.png</code> - Mobile icon</li>
+                        <li><code>icons/icon-144x144.png</code> - Tile icon</li>
+                        <li><code>icons/icon-192x192.png</code> - PWA icon</li>
+                        <li><code>icons/icon-512x512.png</code> - PWA icon</li>
+                    </ul>
+                </li>
+                <li>Clear your browser cache to see the new icons</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const previewArea = document.getElementById('previewArea');
+        const previewGrid = document.getElementById('previewGrid');
+        const generateBtn = document.getElementById('generateBtn');
+        const downloadArea = document.getElementById('downloadArea');
+        const downloadGrid = document.getElementById('downloadGrid');
+
+        let selectedFile = null;
+
+        // Icon sizes to generate
+        const iconSizes = [
+            { size: 16, name: 'icon-16x16.png', description: 'Favicon (16x16)' },
+            { size: 32, name: 'icon-32x32.png', description: 'Favicon (32x32)' },
+            { size: 72, name: 'icon-72x72.png', description: 'Mobile Icon (72x72)' },
+            { size: 144, name: 'icon-144x144.png', description: 'Tile Icon (144x144)' },
+            { size: 192, name: 'icon-192x192.png', description: 'PWA Icon (192x192)' },
+            { size: 512, name: 'icon-512x512.png', description: 'PWA Icon (512x512)' },
+            { size: 80, name: 'logo.png', description: 'Main Logo (80x80)' }
+        ];
+
+        // Upload area events
+        uploadArea.addEventListener('click', () => fileInput.click());
+        uploadArea.addEventListener('dragover', handleDragOver);
+        uploadArea.addEventListener('dragleave', handleDragLeave);
+        uploadArea.addEventListener('drop', handleDrop);
+        fileInput.addEventListener('change', handleFileSelect);
+        generateBtn.addEventListener('click', generateIcons);
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        }
+
+        function handleDragLeave(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        }
+
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (file) {
+                handleFile(file);
+            }
+        }
+
+        function handleFile(file) {
+            if (!file.type.startsWith('image/')) {
+                alert('Please select an image file');
+                return;
+            }
+
+            selectedFile = file;
+            showPreview(file);
+            generateBtn.disabled = false;
+        }
+
+        function showPreview(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewGrid.innerHTML = '';
+                
+                iconSizes.forEach(iconInfo => {
+                    const previewItem = document.createElement('div');
+                    previewItem.className = 'preview-item';
+                    
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.width = Math.min(iconInfo.size, 80) + 'px';
+                    img.style.height = Math.min(iconInfo.size, 80) + 'px';
+                    
+                    const label = document.createElement('div');
+                    label.className = 'size-label';
+                    label.textContent = `${iconInfo.size}x${iconInfo.size}`;
+                    
+                    previewItem.appendChild(img);
+                    previewItem.appendChild(label);
+                    previewGrid.appendChild(previewItem);
+                });
+                
+                previewArea.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function generateIcons() {
+            if (!selectedFile) return;
+
+            generateBtn.textContent = '🔄 Generating Icons...';
+            generateBtn.disabled = true;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    downloadGrid.innerHTML = '';
+                    
+                    iconSizes.forEach(iconInfo => {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        
+                        canvas.width = iconInfo.size;
+                        canvas.height = iconInfo.size;
+                        
+                        // Draw image with proper scaling
+                        ctx.imageSmoothingEnabled = true;
+                        ctx.imageSmoothingQuality = 'high';
+                        ctx.drawImage(img, 0, 0, iconInfo.size, iconInfo.size);
+                        
+                        // Create download link
+                        canvas.toBlob(function(blob) {
+                            const url = URL.createObjectURL(blob);
+                            
+                            const downloadItem = document.createElement('div');
+                            downloadItem.className = 'download-item';
+                            
+                            const info = document.createElement('div');
+                            info.innerHTML = `
+                                <strong>${iconInfo.name}</strong><br>
+                                <small>${iconInfo.description}</small>
+                            `;
+                            
+                            const downloadBtn = document.createElement('button');
+                            downloadBtn.className = 'download-btn';
+                            downloadBtn.textContent = 'Download';
+                            downloadBtn.onclick = function() {
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.download = iconInfo.name;
+                                a.click();
+                            };
+                            
+                            downloadItem.appendChild(info);
+                            downloadItem.appendChild(downloadBtn);
+                            downloadGrid.appendChild(downloadItem);
+                        }, 'image/png');
+                    });
+                    
+                    downloadArea.style.display = 'block';
+                    generateBtn.textContent = '✅ Icons Generated!';
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(selectedFile);
+        }
+
+        // Auto-load the new icon if provided
+        window.addEventListener('load', function() {
+            // Check if there's a new icon to process
+            console.log('🎨 Icon Updater Ready');
+            console.log('Upload your new Budget Buddy icon to generate all required sizes');
+        });
+    </script>
+</body>
+</html>
