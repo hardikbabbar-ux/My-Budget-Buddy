@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Budget Buddy - The app that keeps your pockets healthy</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Your personal finance companion designed to help you manage monthly spending with ease and clarity.">
+    <meta name="keywords" content="budget, finance, expense tracker, money management, savings, personal finance">
+    <meta name="author" content="Budget Buddy Team">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- iOS PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Budget Buddy">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    
+    <!-- Theme Colors -->
+    <meta name="theme-color" content="#22c55e">
+    <meta name="msapplication-TileColor" content="#22c55e">
+    <meta name="msapplication-TileImage" content="icons/icon-144x144.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-16x16.png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="desktop-navigation.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="logo.png" alt="Budget Buddy Logo" class="logo-image">
+                <span>My Budget Buddy</span>
+            </div>
+            <!-- Desktop Navigation -->
+            <ul class="nav-menu desktop-nav">
+                <li class="nav-group main-nav">
+                    <a href="#home" class="nav-link">
+                        <i class="nav-icon">🏠</i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li class="nav-group main-nav">
+                    <a href="#expense-manager" class="nav-link">
+                        <i class="nav-icon">💰</i>
+                        <span>Expense Manager</span>
+                    </a>
+                </li>
+                <li class="nav-group main-nav">
+                    <a href="#piggy-bank" class="nav-link">
+                        <i class="nav-icon">🐷</i>
+                        <span>Piggy Bank</span>
+                    </a>
+                </li>
+                <li class="nav-group info-nav">
+                    <a href="#features" class="nav-link">
+                        <i class="nav-icon">✨</i>
+                        <span>Features</span>
+                    </a>
+                </li>
+                <li class="nav-group info-nav">
+                    <a href="#benefits" class="nav-link">
+                        <i class="nav-icon">🎯</i>
+                        <span>Benefits</span>
+                    </a>
+                </li>
+                <li class="nav-group info-nav">
+                    <a href="#contact" class="nav-link">
+                        <i class="nav-icon">📞</i>
+                        <span>Contact</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <!-- Desktop Tools Menu -->
+            <div class="desktop-tools">
+                <div class="tools-dropdown">
+                    <button class="tools-btn" id="desktopToolsBtn">
+                        <i class="nav-icon">🔧</i>
+                        <span>Tools</span>
+                        <i class="dropdown-arrow">▼</i>
+                    </button>
+                    <div class="tools-dropdown-menu" id="desktopToolsMenu">
+                        <a href="#" id="showAllMenuBtn" class="tool-item">
+                            <i class="tool-icon">📋</i>
+                            <span>All Menu Options</span>
+                        </a>
+                        <a href="#" id="appSettingsBtn" class="tool-item">
+                            <i class="tool-icon">⚙️</i>
+                            <span>App Settings</span>
+                        </a>
+                        <div class="tool-separator"></div>
+                        <a href="#how-it-works" class="tool-item">
+                            <i class="tool-icon">❓</i>
+                            <span>How it Works</span>
+                        </a>
+                        <a href="#team" class="tool-item">
+                            <i class="tool-icon">👥</i>
+                            <span>Our Team</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile Navigation (Hidden on Desktop) -->
+            <ul class="nav-menu mobile-nav">
+                <li><a href="#home">🏠 Home</a></li>
+                <li><a href="#expense-manager">💰 Expense Manager</a></li>
+                <li><a href="#piggy-bank">🐷 Piggy Bank</a></li>
+                <li><a href="#features">✨ Features</a></li>
+                <li><a href="#how-it-works">🔧 How it Works</a></li>
+                <li><a href="#benefits">🎯 Benefits</a></li>
+                <li><a href="#team">👥 Our Team</a></li>
+                <li><a href="#contact">📞 Contact</a></li>
+                <li class="menu-tools-separator">
+                    <hr style="border: 1px solid #e2e8f0; margin: 10px 0;">
+                </li>
+                <li><a href="#" id="showAllMenuBtnMobile">📋 Show All Menu Options</a></li>
+                <li><a href="#" id="appSettingsBtnMobile">⚙️ App Settings</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Animated Background Elements -->
+    <div class="floating-icons">
+        <div class="floating-icon">💰</div>
+        <div class="floating-icon">💳</div>
+        <div class="floating-icon">🏦</div>
+        <div class="floating-icon">📊</div>
+        <div class="floating-icon">💎</div>
+        <div class="floating-icon">🎯</div>
+        <div class="floating-icon">📈</div>
+        <div class="floating-icon">💵</div>
+        <div class="floating-icon">🐷</div>
+    </div>
+
+    <div class="particles" id="particles"></div>
+
+    <!-- Main Content Wrapper -->
+    <main class="main-content">
+    
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <i class="fas fa-brain"></i>
+                    My Budget Buddy
+                </h1>
+                <p class="hero-tagline">"The app that keeps your pockets healthy"</p>
+                <p class="hero-description">Your personal finance companion designed to help you manage monthly spending with ease and clarity.</p>
+                <div class="hero-buttons">
+                    <button class="btn-primary" onclick="document.querySelector('#expense-manager').scrollIntoView({behavior: 'smooth'})">Try Expense Manager</button>
+                    <button class="btn-secondary">Learn More</button>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="budget-card">
+                    <div class="card-header">
+                        <i class="fas fa-wallet"></i>
+                        <span>Monthly Budget</span>
+                    </div>
+                    <div class="budget-amount">₹15,000</div>
+                    <div class="budget-remaining">₹8,500 remaining</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 43%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2>❓ Why do we need My Budget Buddy?</h2>
+                <p>Understanding the problem we solve</p>
+            </div>
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <div class="problem-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3>🚨 Overspending Crisis</h3>
+                    <p>Most people, especially students, overspend money without realizing it.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">
+                        <i class="fas fa-chart-line-down"></i>
+                    </div>
+                    <h3>📉 Monthly Shortage</h3>
+                    <p>70% of students run out of pocket money before the end of the month.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">
+                        <i class="fas fa-piggy-bank"></i>
+                    </div>
+                    <h3>🚫 No Savings Discipline</h3>
+                    <p>Lack of savings discipline and financial planning habits.</p>
+                </div>
+            </div>
+            <div class="solution-highlight">
+                <p><strong>👉 My Budget Buddy solves this by helping users track expenses, set goals, and build savings discipline.</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Overview Section -->
+    <section id="overview" class="overview">
+        <div class="container">
+            <div class="overview-content">
+                <div class="overview-text">
+                    <h2>🤔 What is My Budget Buddy?</h2>
+                    <p>My Budget Buddy is your personal finance companion designed to help you manage monthly spending with ease and clarity.</p>
+                    <p>Whether you're a student, a working professional, or someone trying to save smarter, this app helps you stay on top of your budget — day by day.</p>
+                    <div class="target-audience">
+                        <div class="audience-item">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Students</span>
+                        </div>
+                        <div class="audience-item">
+                            <i class="fas fa-briefcase"></i>
+                            <span>Professionals</span>
+                        </div>
+                        <div class="audience-item">
+                            <i class="fas fa-home"></i>
+                            <span>Families</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="overview-visual">
+                    <div class="phone-mockup">
+                        <div class="phone-screen">
+                            <div class="app-interface">
+                                <div class="app-header">Budget Overview</div>
+                                <div class="expense-item">
+                                    <span>Food</span>
+                                    <span>₹2,500</span>
+                                </div>
+                                <div class="expense-item">
+                                    <span>Transport</span>
+                                    <span>₹1,200</span>
+                                </div>
+                                <div class="expense-item">
+                                    <span>Entertainment</span>
+                                    <span>₹800</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Expense Manager Section -->
+    <section id="expense-manager" class="expense-manager">
+        <div class="container">
+            <div class="section-header">
+                <h2>💰 Expense Manager</h2>
+                <p>Track your expenses, manage budgets, and achieve your financial goals</p>
+            </div>
+            
+            <!-- Dashboard Overview -->
+            <div class="dashboard-overview">
+                <div class="overview-cards">
+                    <div class="overview-card">
+                        <div class="card-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Total Budget</h3>
+                            <div class="amount" id="totalBudget">₹0</div>
+                        </div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="card-icon">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Total Expenses</h3>
+                            <div class="amount expense" id="totalExpenses">₹0</div>
+                        </div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="card-icon">
+                            <i class="fas fa-piggy-bank"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Remaining</h3>
+                            <div class="amount remaining" id="remainingBudget">₹0</div>
+                        </div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Savings Goal</h3>
+                            <div class="amount savings" id="savingsGoal">₹0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Manager Interface -->
+            <div class="manager-interface">
+                <!-- Budget Setup -->
+                <div class="manager-section">
+                    <div class="section-title">
+                        <h3><i class="fas fa-cog"></i> Budget Setup</h3>
+                    </div>
+                    <div class="budget-setup">
+                        <div class="input-group">
+                            <label for="monthlyIncome">Monthly Income</label>
+                            <input type="number" id="monthlyIncome" placeholder="Enter your monthly income">
+                        </div>
+                        <div class="input-group">
+                            <label for="savingsPercentage">Savings Goal (%)</label>
+                            <input type="number" id="savingsPercentage" placeholder="20" min="0" max="100">
+                        </div>
+                        <button class="btn-primary" id="setupBudget">Setup Budget</button>
+                    </div>
+                </div>
+
+                <!-- Add Expense -->
+                <div class="manager-section">
+                    <div class="section-title">
+                        <h3><i class="fas fa-plus"></i> Add Expense</h3>
+                    </div>
+                    <div class="expense-form">
+                        <div class="form-row">
+                            <div class="input-group">
+                                <label for="expenseDescription">Description</label>
+                                <input type="text" id="expenseDescription" placeholder="What did you spend on?">
+                            </div>
+                            <div class="input-group">
+                                <label for="expenseAmount">Amount (₹)</label>
+                                <input type="number" id="expenseAmount" placeholder="0" min="0" step="0.01">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="input-group">
+                                <label for="expenseCategory">Category</label>
+                                <select id="expenseCategory">
+                                    <option value="food">🍽️ Food & Dining</option>
+                                    <option value="transport">🚗 Transportation</option>
+                                    <option value="entertainment">🎬 Entertainment</option>
+                                    <option value="shopping">🛍️ Shopping</option>
+                                    <option value="bills">💡 Bills & Utilities</option>
+                                    <option value="healthcare">🏥 Healthcare</option>
+                                    <option value="education">📚 Education</option>
+                                    <option value="other">📦 Other</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="expenseDate">Date</label>
+                                <input type="date" id="expenseDate">
+                            </div>
+                        </div>
+                        <button class="btn-primary" id="addExpense">Add Expense</button>
+                    </div>
+                </div>
+
+                <!-- Category Budgets -->
+                <div class="manager-section">
+                    <div class="section-title">
+                        <h3><i class="fas fa-chart-pie"></i> Category Budgets</h3>
+                    </div>
+                    <div class="category-budgets" id="categoryBudgets">
+                        <!-- Categories will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Recent Expenses -->
+                <div class="manager-section">
+                    <div class="section-title">
+                        <h3><i class="fas fa-history"></i> Recent Expenses</h3>
+                        <div class="section-actions">
+                            <button class="btn-secondary" id="clearExpenses">Clear All</button>
+                            <button class="btn-secondary" id="exportData">
+                                <i class="fas fa-file-pdf"></i> Export PDF Report
+                            </button>
+                        </div>
+                    </div>
+                    <div class="expenses-list" id="expensesList">
+                        <div class="no-expenses">
+                            <i class="fas fa-receipt"></i>
+                            <p>No expenses recorded yet. Add your first expense above!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Monthly Report -->
+                <div class="manager-section">
+                    <div class="section-title">
+                        <h3><i class="fas fa-database"></i> Monthly Storage & Report</h3>
+                    </div>
+                    <div class="monthly-report">
+                        <div class="report-chart">
+                            <canvas id="expenseChart" width="400" height="200"></canvas>
+                        </div>
+                        <div class="report-insights" id="reportInsights">
+                            <div class="insight-item">
+                                <i class="fas fa-lightbulb"></i>
+                                <p>Set up your budget to see personalized insights!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Piggy Bank Section -->
+    <section id="piggy-bank" class="piggy-bank">
+        <div class="container">
+            <div class="section-header">
+                <h2>🐷 Piggy Bank - Smart Savings</h2>
+                <p>Set aside money and achieve your savings goals</p>
+            </div>
+
+            <!-- Savings Overview -->
+            <div class="savings-overview">
+                <div class="savings-cards">
+                    <div class="savings-card total-savings">
+                        <div class="savings-icon">
+                            <i class="fas fa-piggy-bank"></i>
+                        </div>
+                        <div class="savings-content">
+                            <h3>Total Savings</h3>
+                            <div class="amount" id="totalSavings">₹0</div>
+                        </div>
+                    </div>
+                    <div class="savings-card monthly-target">
+                        <div class="savings-icon">
+                            <i class="fas fa-target"></i>
+                        </div>
+                        <div class="savings-content">
+                            <h3>Monthly Target</h3>
+                            <div class="amount" id="monthlyTarget">₹0</div>
+                        </div>
+                    </div>
+                    <div class="savings-card goals-achieved">
+                        <div class="savings-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="savings-content">
+                            <h3>Goals Achieved</h3>
+                            <div class="amount" id="goalsAchieved">0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Save -->
+            <div class="savings-section">
+                <div class="section-title">
+                    <h3><i class="fas fa-coins"></i> Quick Save</h3>
+                    <div class="integration-badge">
+                        <i class="fas fa-link"></i>
+                        <span>Connected to Budget</span>
+                    </div>
+                </div>
+                <div class="quick-save">
+                    <div class="quick-save-amounts">
+                        <button class="quick-amount" data-amount="50">₹50</button>
+                        <button class="quick-amount" data-amount="100">₹100</button>
+                        <button class="quick-amount" data-amount="200">₹200</button>
+                        <button class="quick-amount" data-amount="500">₹500</button>
+                    </div>
+                    <div class="custom-save">
+                        <input type="number" id="customSaveAmount" placeholder="Enter amount" min="1">
+                        <button class="btn-primary" id="saveMoneyBtn">Save Money</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Savings Goals -->
+            <div class="savings-section">
+                <div class="section-title">
+                    <h3><i class="fas fa-bullseye"></i> Savings Goals</h3>
+                    <button class="btn-secondary" id="addGoalBtn">Add New Goal</button>
+                </div>
+                <div class="goals-list" id="goalsList">
+                    <div class="no-goals">
+                        <i class="fas fa-bullseye"></i>
+                        <p>No savings goals yet. Create your first goal to start saving!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Savings History -->
+            <div class="savings-section">
+                <div class="section-title">
+                    <h3><i class="fas fa-history"></i> Savings History</h3>
+                    <div class="section-actions">
+                        <button class="btn-secondary" id="withdrawBtn">Withdraw</button>
+                        <button class="btn-secondary" id="exportSavingsBtn">Export Report</button>
+                    </div>
+                </div>
+                <div class="savings-history" id="savingsHistory">
+                    <div class="no-history">
+                        <i class="fas fa-piggy-bank"></i>
+                        <p>No savings history yet. Start saving to see your progress!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Savings Analytics -->
+            <div class="savings-section">
+                <div class="section-title">
+                    <h3><i class="fas fa-chart-pie"></i> Savings Analytics</h3>
+                </div>
+                <div class="savings-analytics">
+                    <div class="analytics-chart">
+                        <canvas id="savingsChart" width="400" height="200"></canvas>
+                    </div>
+                    <div class="analytics-insights" id="savingsInsights">
+                        <div class="insight-item">
+                            <i class="fas fa-lightbulb"></i>
+                            <p>Start saving to see personalized insights!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Goal Modal -->
+    <div id="goalModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create Savings Goal</h3>
+                <span class="close" id="closeGoalModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="goalName">Goal Name</label>
+                    <input type="text" id="goalName" placeholder="e.g., New Laptop, Vacation, Emergency Fund">
+                </div>
+                <div class="form-group">
+                    <label for="goalAmount">Target Amount (₹)</label>
+                    <input type="number" id="goalAmount" placeholder="10000" min="1">
+                </div>
+                <div class="form-group">
+                    <label for="goalDeadline">Target Date</label>
+                    <input type="date" id="goalDeadline">
+                </div>
+                <div class="form-group">
+                    <label for="goalCategory">Category</label>
+                    <select id="goalCategory">
+                        <option value="emergency">🚨 Emergency Fund</option>
+                        <option value="travel">✈️ Travel & Vacation</option>
+                        <option value="gadgets">📱 Gadgets & Electronics</option>
+                        <option value="education">📚 Education</option>
+                        <option value="health">🏥 Health & Fitness</option>
+                        <option value="home">🏠 Home & Living</option>
+                        <option value="other">📦 Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="goalDescription">Description (Optional)</label>
+                    <textarea id="goalDescription" placeholder="Why is this goal important to you?"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelGoal">Cancel</button>
+                <button class="btn-primary" id="createGoal">Create Goal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Withdraw Modal -->
+    <div id="withdrawModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Withdraw from Savings</h3>
+                <span class="close" id="closeWithdrawModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="withdraw-info">
+                    <p>Available Balance: <strong id="availableBalance">₹0</strong></p>
+                </div>
+                <div class="form-group">
+                    <label for="withdrawAmount">Withdraw Amount (₹)</label>
+                    <input type="number" id="withdrawAmount" placeholder="Enter amount" min="1">
+                </div>
+                <div class="form-group">
+                    <label for="withdrawReason">Reason</label>
+                    <select id="withdrawReason">
+                        <option value="emergency">Emergency</option>
+                        <option value="goal-achieved">Goal Achieved</option>
+                        <option value="expense">Planned Expense</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="withdrawNote">Note (Optional)</label>
+                    <input type="text" id="withdrawNote" placeholder="Additional details">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelWithdraw">Cancel</button>
+                <button class="btn-primary" id="confirmWithdraw">Withdraw</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>✨ Key Features</h2>
+                <p>Everything you need to manage your finances effectively</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <h3>💰 Monthly Wallet Setup</h3>
+                    <ul>
+                        <li>Input monthly income</li>
+                        <li>Automatically divides money into categories</li>
+                        <li>Tracks real-time expenses</li>
+                        <li>Generates monthly reports</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3>📋 Routine Expense Planning</h3>
+                    <ul>
+                        <li>Fruits & groceries</li>
+                        <li>Stationery & supplies</li>
+                        <li>Monthly savings goals</li>
+                        <li>Weekly dining or leisure</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-receipt"></i>
+                    </div>
+                    <h3>🧾 Daily Expense Tracker</h3>
+                    <ul>
+                        <li>Log daily expenses</li>
+                        <li>Updates remaining balance</li>
+                        <li>Highlights impulsive spending</li>
+                        <li>Forecasts upcoming balance</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>📊 Smart Insights & Suggestions</h3>
+                    <ul>
+                        <li>Overspending alerts</li>
+                        <li>Savings boost suggestions</li>
+                        <li>Monthly forecasts</li>
+                        <li>Personalized financial advice</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3>🔔 Reminders & Alerts</h3>
+                    <ul>
+                        <li>Budget limit alerts</li>
+                        <li>Bill payment reminders</li>
+                        <li>Daily/weekly spend alerts</li>
+                        <li>Motivational nudges to save</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2>🔧 How It Works</h2>
+                <p>Simple 5-step process to financial freedom</p>
+            </div>
+            <div class="process-flow">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>💰 Enter Monthly Budget</h3>
+                        <p>Input your monthly income and let the app set up your wallet automatically</p>
+                    </div>
+                </div>
+                <div class="process-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>🔄 Add Recurring Expenses</h3>
+                        <p>Set up your regular monthly expenses and savings goals</p>
+                    </div>
+                </div>
+                <div class="process-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>📝 Log Daily Expenses</h3>
+                        <p>Track your daily spending and watch your balance update automatically</p>
+                    </div>
+                </div>
+                <div class="process-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>🧠 Get Smart Insights</h3>
+                        <p>Receive alerts and personalized suggestions to optimize your spending</p>
+                    </div>
+                </div>
+                <div class="process-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h3>📈 Monthly Summary</h3>
+                        <p>Get detailed reports and savings tips at the end of each month</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="benefits" class="benefits">
+        <div class="container">
+            <div class="section-header">
+                <h2>🎯 Impacts & Benefits</h2>
+                <p>Transform your financial habits with My Budget Buddy</p>
+            </div>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3>🚫 Avoid Overspending</h3>
+                    <p>Stay within your budget limits with real-time tracking and smart alerts</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-piggy-bank"></i>
+                    </div>
+                    <h3>💪 Build Savings Discipline</h3>
+                    <p>Develop healthy financial habits with automated savings goals and reminders</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>🧠 Simplify Financial Literacy</h3>
+                    <p>Learn money management through intuitive features and personalized insights</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>👥 Works for Everyone</h3>
+                    <p>Perfect for students, professionals, and families of all sizes</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Future Enhancements Section -->
+    <section id="future" class="future">
+        <div class="container">
+            <div class="section-header">
+                <h2>🚀 Future Enhancements</h2>
+                <p>What's coming next to make your experience even better</p>
+            </div>
+            <div class="future-grid">
+                <div class="future-card">
+                    <div class="future-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>🤖 AI-Driven Budgeting</h3>
+                    <p>Predictive budgeting powered by artificial intelligence</p>
+                </div>
+                <div class="future-card">
+                    <div class="future-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3>🎮 Gamified Rewards</h3>
+                    <p>Earn rewards and achievements for savings streaks</p>
+                </div>
+                <div class="future-card">
+                    <div class="future-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>🌍 Multi-Language Support</h3>
+                    <p>Voice assistant and multiple language options</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="team">
+        <div class="container">
+            <div class="section-header">
+                <h2>👨‍💻 Meet Our Team</h2>
+                <p>The passionate developers behind My Budget Buddy</p>
+            </div>
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <h3>Himesh Yadav</h3>
+                    <p class="team-role">Lead Web Developer</p>
+                    <p class="team-description">Passionate about creating user-friendly financial solutions. Versatile developer with expertise in both frontend and backend.</p>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <h3>Pragyansh Gupta</h3>
+                    <p class="team-role">UI Designer</p>
+                    <p class="team-description">Expert in creating beautiful and intuitive user interfaces</p>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <h3>Chirag Bajaj</h3>
+                    <p class="team-role">Content Manager</p>
+                    <p class="team-description">Manages the content to be delivered</p>
+                </div>
+                <div class="team-card team-card-centered">
+                    <div class="team-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <h3>Hardik Babbar</h3>
+                    <p class="team-role">Content Creator</p>
+                    <p class="team-description">Ensures language is simple, clear, and engaging.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h2>📞 Smart money. Simple life.</h2>
+                    <p>Ready to take control of your finances? Get in touch with us!</p>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:mybudgetbuddy2025@gmail.com">mybudgetbuddy2025@gmail.com</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form id="contact-form">
+                        <div class="form-group">
+                            <input type="text" name="from_name" id="from_name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="from_email" id="from_email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" id="message" placeholder="Your Message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary" id="send-btn">
+                            <span class="btn-text">Send Message</span>
+                            <span class="btn-loading" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i> Sending...
+                            </span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    </main>
+    <!-- End Main Content Wrapper -->
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="logo.png" alt="Budget Buddy Logo" class="logo-image">
+                    <span>My Budget Buddy</span>
+                </div>
+                <p>&copy; 2025 My Budget Buddy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Install App Button -->
+    <div id="installPrompt" class="install-prompt" style="display: none;">
+        <div class="install-content">
+            <div class="install-icon">
+                <i class="fas fa-download"></i>
+            </div>
+            <div class="install-text">
+                <h3>Install Budget Buddy</h3>
+                <p>Install our app for a better experience!</p>
+            </div>
+            <div class="install-actions">
+                <button id="installBtn" class="btn-primary">Install</button>
+                <button id="dismissBtn" class="btn-secondary">Later</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Core Application Scripts -->
+    <script src="script.js"></script>
+    <script src="expense-manager.js"></script>
+    <script src="piggy-bank.js"></script>
+    <script src="desktop-navigation.js"></script>
+    <script src="email-service.js"></script>
+    <script src="pwa-installer.js"></script>
+    <script src="comprehensive-test.js"></script>
+    
+    <!-- Initialize Application -->
+    <script>
+        // Global application initialization
+        let expenseManager, piggyBank, desktopNavigation;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Initializing Budget Buddy Application...');
+            
+            try {
+                // Initialize Expense Manager
+                if (typeof ExpenseManager !== 'undefined') {
+                    expenseManager = new ExpenseManager();
+                    window.expenseManager = expenseManager;
+                    console.log('✅ Expense Manager initialized');
+                } else {
+                    console.error('❌ ExpenseManager class not found');
+                }
+                
+                // Initialize Piggy Bank
+                if (typeof PiggyBank !== 'undefined') {
+                    piggyBank = new PiggyBank();
+                    window.piggyBank = piggyBank;
+                    console.log('✅ Piggy Bank initialized');
+                } else {
+                    console.error('❌ PiggyBank class not found');
+                }
+                
+                // Initialize Desktop Navigation
+                if (typeof DesktopNavigation !== 'undefined') {
+                    desktopNavigation = new DesktopNavigation();
+                    window.desktopNavigation = desktopNavigation;
+                    console.log('✅ Desktop Navigation initialized');
+                } else {
+                    console.error('❌ DesktopNavigation class not found');
+                }
+                
+                console.log('🎉 Budget Buddy Application fully initialized!');
+                
+            } catch (error) {
+                console.error('❌ Error initializing application:', error);
+            }
+        });
+    </script>
+    
+    <!-- Immediate Tools Dropdown Fix -->
+    <script>
+        // Immediate fix for tools dropdown
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                const toolsBtn = document.getElementById('desktopToolsBtn');
+                const toolsMenu = document.getElementById('desktopToolsMenu');
+                
+                if (toolsBtn && toolsMenu) {
+                    console.log('🔧 Setting up immediate tools dropdown fix');
+                    
+                    toolsBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        console.log('🎯 Tools button clicked (immediate fix)');
+                        
+                        if (toolsMenu.style.display === 'block') {
+                            toolsMenu.style.display = 'none';
+                            toolsBtn.style.background = '';
+                        } else {
+                            toolsMenu.style.display = 'block';
+                            toolsBtn.style.background = '#4f46e5';
+                        }
+                    });
+                    
+                    // Close when clicking outside
+                    document.addEventListener('click', function(e) {
+                        if (!toolsBtn.contains(e.target) && !toolsMenu.contains(e.target)) {
+                            toolsMenu.style.display = 'none';
+                            toolsBtn.style.background = '';
+                        }
+                    });
+                    
+                    console.log('✅ Immediate tools dropdown fix applied');
+                }
+            }, 100);
+        });
+    </script>
+
+    <!-- Immediate Mobile Menu Fix -->
+    <script>
+        // Immediate mobile menu fix
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                const hamburger = document.querySelector('.hamburger');
+                const mobileNav = document.querySelector('.mobile-nav');
+                
+                if (hamburger && mobileNav) {
+                    console.log('📱 Setting up immediate mobile menu fix');
+                    
+                    let isMenuOpen = false;
+                    
+                    hamburger.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        console.log('🍔 Hamburger clicked (immediate fix)');
+                        
+                        if (isMenuOpen) {
+                            // Close menu
+                            hamburger.classList.remove('active');
+                            mobileNav.classList.remove('show');
+                            mobileNav.style.display = 'none';
+                            document.body.style.overflow = '';
+                            isMenuOpen = false;
+                        } else {
+                            // Open menu
+                            hamburger.classList.add('active');
+                            mobileNav.classList.add('show');
+                            mobileNav.style.display = 'flex';
+                            document.body.style.overflow = 'hidden';
+                            isMenuOpen = true;
+                        }
+                    });
+                    
+                    // Close menu when clicking on menu items
+                    const menuItems = mobileNav.querySelectorAll('a');
+                    menuItems.forEach(item => {
+                        item.addEventListener('click', function() {
+                            hamburger.classList.remove('active');
+                            mobileNav.classList.remove('show');
+                            mobileNav.style.display = 'none';
+                            document.body.style.overflow = '';
+                            isMenuOpen = false;
+                        });
+                    });
+                    
+                    console.log('✅ Immediate mobile menu fix applied');
+                }
+            }, 50);
+        });
+    </script>
+    
+    <!-- PWA Service Worker Registration -->
+    <script>
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then((registration) => {
+                        console.log('SW registered: ', registration);
+                        
+                        // Check for updates
+                        registration.addEventListener('updatefound', () => {
+                            const newWorker = registration.installing;
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    // New content is available, show update notification
+                                    showUpdateNotification();
+                                }
+                            });
+                        });
+                    })
+                    .catch((registrationError) => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+
+        // Install Prompt Functionality
+        let deferredPrompt;
+        const installPrompt = document.getElementById('installPrompt');
+        const installBtn = document.getElementById('installBtn');
+        const dismissBtn = document.getElementById('dismissBtn');
+
+        // Listen for beforeinstallprompt event
+        window.addEventListener('beforeinstallprompt', (e) => {
+            console.log('beforeinstallprompt fired');
+            // Prevent the mini-infobar from appearing on mobile
+            e.preventDefault();
+            // Stash the event so it can be triggered later
+            deferredPrompt = e;
+            // Show install prompt
+            showInstallPrompt();
+        });
+
+        // Install button click handler
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                // Show the install prompt
+                deferredPrompt.prompt();
+                // Wait for the user to respond to the prompt
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`User response to the install prompt: ${outcome}`);
+                // Clear the deferredPrompt
+                deferredPrompt = null;
+                // Hide the install prompt
+                hideInstallPrompt();
+            }
+        });
+
+        // Dismiss button click handler
+        dismissBtn.addEventListener('click', () => {
+            hideInstallPrompt();
+            // Remember user dismissed the prompt
+            localStorage.setItem('installPromptDismissed', Date.now());
+        });
+
+        // Show install prompt
+        function showInstallPrompt() {
+            // Check if user previously dismissed the prompt (within 7 days)
+            const dismissedTime = localStorage.getItem('installPromptDismissed');
+            if (dismissedTime) {
+                const daysSinceDismissed = (Date.now() - parseInt(dismissedTime)) / (1000 * 60 * 60 * 24);
+                if (daysSinceDismissed < 7) {
+                    return; // Don't show prompt if dismissed within 7 days
+                }
+            }
+            
+            installPrompt.style.display = 'flex';
+            setTimeout(() => {
+                installPrompt.classList.add('show');
+            }, 100);
+        }
+
+        // Hide install prompt
+        function hideInstallPrompt() {
+            installPrompt.classList.remove('show');
+            setTimeout(() => {
+                installPrompt.style.display = 'none';
+            }, 300);
+        }
+
+        // Listen for app installed event
+        window.addEventListener('appinstalled', (evt) => {
+            console.log('Budget Buddy was installed');
+            hideInstallPrompt();
+            // Show thank you message
+            showNotification('✅ Budget Buddy installed successfully!', 'success');
+        });
+
+        // Show update notification
+        function showUpdateNotification() {
+            const updateBanner = document.createElement('div');
+            updateBanner.className = 'update-banner';
+            updateBanner.innerHTML = `
+                <div class="update-content">
+                    <span>🔄 New version available!</span>
+                    <button onclick="window.location.reload()" class="btn-primary">Update</button>
+                </div>
+            `;
+            document.body.appendChild(updateBanner);
+        }
+
+        // Notification helper function
+        function showNotification(message, type = 'info') {
+            // This would integrate with your existing notification system
+            console.log(`${type.toUpperCase()}: ${message}`);
+        }
+
+        // Handle online/offline status
+        window.addEventListener('online', () => {
+            console.log('App is online');
+            showNotification('🌐 Back online!', 'success');
+        });
+
+        window.addEventListener('offline', () => {
+            console.log('App is offline');
+            showNotification('📱 App is working offline', 'info');
+        });
+
+        // Create Dynamic Particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            if (!particlesContainer) return;
+
+            // Create 20 particles
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Random starting position
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 12 + 's';
+                particle.style.animationDuration = (8 + Math.random() * 8) + 's';
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Initialize particles when page loads
+        window.addEventListener('load', () => {
+            createParticles();
+            
+            // Add scroll-based background effects
+            let ticking = false;
+            
+            function updateBackground() {
+                const scrolled = window.pageYOffset;
+                const parallax = scrolled * 0.5;
+                
+                document.body.style.backgroundPosition = `center ${parallax}px`;
+                ticking = false;
+            }
+            
+            function requestTick() {
+                if (!ticking) {
+                    requestAnimationFrame(updateBackground);
+                    ticking = true;
+                }
+            }
+            
+            window.addEventListener('scroll', requestTick);
+        });
+    </script>
+</body>
+</html>
